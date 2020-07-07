@@ -18,10 +18,9 @@ export default class BeforeMiddlewareManager extends MiddlewareManager {
     handle() {
         if (0 === this.middlewareGroups.length || ++this.index === this.middlewareGroups.length) {
             this.next()
-            return
+        } else {
+            this.middlewareGroups[this.index].setManager(this).handle(this)
         }
-        this.middlewareGroups[this.index].handle(this)
-
         return super.handle()
     }
 }

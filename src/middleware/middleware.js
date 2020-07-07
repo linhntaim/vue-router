@@ -1,11 +1,27 @@
 export default class Middleware {
-    handle($middlewareManager) {
-        $middlewareManager.handle()
+    setManager(middlewareManager) {
+        this.middlewareManager = middlewareManager
     }
 
-    redirect($middlewareManager, path = '/', query = {}, hash = '') {
+    app() {
+        return this.middlewareManager.getApp()
+    }
+
+    router() {
+        return this.middlewareManager.getRouter()
+    }
+
+    next() {
+        this.middlewareManager.handle()
+    }
+
+    handle() {
+        this.next()
+    }
+
+    redirect(path = '/', query = {}, hash = '') {
         query.time = new Date().getTime()
-        $middlewareManager.next({
+        this.middlewareManager.next({
             path: path,
             query: query,
             hash: hash,

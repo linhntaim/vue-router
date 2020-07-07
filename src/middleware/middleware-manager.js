@@ -5,6 +5,14 @@ export default class MiddlewareManager {
         this.index = -1
     }
 
+    getApp() {
+        return this.router.app
+    }
+
+    getRouter() {
+        return this.router
+    }
+
     run() {
         return this
     }
