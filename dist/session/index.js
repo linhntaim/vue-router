@@ -1,2 +1,2 @@
-import Session from"./session";const session=new Session;export default session;
+"use strict";Object.defineProperty(exports,"__esModule",{value:true});exports.session=void 0;var _session=_interopRequireDefault(require("./session"));function _interopRequireDefault(obj){return obj&&obj.__esModule?obj:{"default":obj}}var session=new _session["default"];exports.session=session;
 //# sourceMappingURL=index.js.map

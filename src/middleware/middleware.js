@@ -1,4 +1,4 @@
-export default class Middleware {
+export class Middleware {
     setManager(middlewareManager) {
         this.middlewareManager = middlewareManager
     }
@@ -9,6 +9,14 @@ export default class Middleware {
 
     router() {
         return this.middlewareManager.getRouter()
+    }
+
+    runBefore() {
+        return this.middlewareManager.before
+    }
+
+    runAfter() {
+        return this.middlewareManager.after
     }
 
     next() {

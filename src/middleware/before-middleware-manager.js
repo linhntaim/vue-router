@@ -1,6 +1,6 @@
 import MiddlewareManager from './middleware-manager'
 
-export default class BeforeMiddlewareManager extends MiddlewareManager {
+export class BeforeMiddlewareManager extends MiddlewareManager {
     constructor(middlewareGroups, router) {
         super(middlewareGroups, router)
         this.before = true

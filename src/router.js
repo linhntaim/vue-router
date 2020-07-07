@@ -1,5 +1,5 @@
+import {session} from './session'
 import {AfterMiddlewareManager, BeforeMiddlewareManager, Middleware} from './middleware'
-import session from './session'
 import VueRouter from 'vue-router'
 
 export default class Router extends VueRouter {
