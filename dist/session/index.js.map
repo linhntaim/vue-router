@@ -1,0 +1,1 @@
+{"version":3,"sources":["../../src/session/index.js"],"names":["Session","session"],"mappings":"AAAA,MAAOA,CAAAA,OAAP,KAAoB,WAApB,CAEA,KAAMC,CAAAA,OAAO,CAAG,GAAID,CAAAA,OAApB,CAEA,cAAeC,CAAAA,OAAf","sourcesContent":["import Session from './session'\r\n\r\nconst session = new Session()\r\n\r\nexport default session\r\n"],"file":"index.js"}

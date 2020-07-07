@@ -1,0 +1,35 @@
+{
+  "name": "@dsquare-gbu/vue-router",
+  "version": "1.0.0",
+  "description": "Advanced routing fpr Vue application",
+  "main": "dist/index.js",
+  "scripts": {
+    "build": "babel src --out-dir ./dist --delete-dir-on-start --minified --source-maps",
+    "test": "nyc mocha --require @babel/register",
+    "coverage": "nyc report --reporter=text-lcov | coveralls"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git@git-gbu.japaneast.cloudapp.azure.com:gbu/vue-router.git"
+  },
+  "keywords": [
+    "vue",
+    "vue.js",
+    "vuejs",
+    "application",
+    "routing"
+  ],
+  "author": "Nguyen Tuan Linh <tuanlinh.nguyen@dsquare.com.vn>",
+  "license": "MIT",
+  "devDependencies": {
+    "@babel/cli": "^7.10.4",
+    "@babel/core": "^7.10.4",
+    "@babel/preset-env": "^7.10.4",
+    "@babel/register": "^7.10.4",
+    "chai": "^4.2.0",
+    "coveralls": "^3.1.0",
+    "mocha": "^8.0.1",
+    "nyc": "^15.1.0",
+    "vue-router": "^3.3.4"
+  }
+}
