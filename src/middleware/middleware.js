@@ -1,6 +1,7 @@
 export class Middleware {
     setManager(middlewareManager) {
         this.middlewareManager = middlewareManager
+        return this
     }
 
     app() {
