@@ -7,6 +7,6 @@ const expect = chai.expect
 chai.should()
 
 describe('vue-router', function () {
-  describe('unit tests', function () {
-  })
+    describe('unit tests', function () {
+    })
 })
