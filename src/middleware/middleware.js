@@ -12,6 +12,10 @@ export class Middleware {
         return this.middlewareManager.getRouter()
     }
 
+    to() {
+        return this.middlewareManager.to
+    }
+
     runBefore() {
         return this.middlewareManager.before
     }
@@ -28,12 +32,14 @@ export class Middleware {
         this.next()
     }
 
-    redirect(path = '/', query = {}, hash = '') {
-        query.time = new Date().getTime()
-        this.middlewareManager.next({
-            path: path,
-            query: query,
-            hash: hash,
-        })
+    redirect(location) {
+        if ('query' in location) {
+            location.query.time = new Date().getTime()
+        } else {
+            location.query = {
+                time: new Date().getTime(),
+            }
+        }
+        this.middlewareManager.next(location)
     }
 }
