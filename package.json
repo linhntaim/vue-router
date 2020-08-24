@@ -1,5 +1,5 @@
 {
-    "name": "@dsquare-gbu/vue-router",
+    "name": "@linhntaim/vue-router",
     "version": "1.0.7",
     "description": "Advanced routing fpr Vue application",
     "main": "dist/index.js",
@@ -19,7 +19,7 @@
         "application",
         "routing"
     ],
-    "author": "Nguyen Tuan Linh <tuanlinh.nguyen@dsquare.com.vn>",
+    "author": "Nguyen Tuan Linh <contact@linhntaim.com> (https://linhntaim.com)",
     "license": "MIT",
     "devDependencies": {
         "@babel/cli": "^7.10.5",
