@@ -1,9 +1,45 @@
 export default class Session {
     constructor() {
+        this.storeHandler = null
         this.accessTime = 0
         this.nextAccessTime = 1
 
         this.data = {}
+    }
+
+    /**
+     *
+     * @param {StoreHandler} storeHandler
+     */
+    attachStoreHandler(storeHandler) {
+        this.storeHandler = storeHandler
+        this.sync('save')
+        return this
+    }
+
+    /**
+     *
+     * @param {StoreHandler} storeHandler
+     */
+    fromStoreHandler(storeHandler) {
+        this.storeHandler = storeHandler
+        this.sync()
+        return this
+    }
+
+    /**
+     *
+     * @param {String|null} action
+     */
+    sync(action = null) {
+        if (!this.storeHandler) return
+
+        if (action === 'save') {
+            this.storeHandler.setJson('__session', this.data)
+        } else {
+            const data = this.storeHandler.getJson('__session')
+            if (data) this.data = data
+        }
     }
 
     start() {
@@ -48,13 +84,14 @@ export default class Session {
             value: value,
             flash: flash,
         }
+        this.sync('save')
         return this
     }
 
-    retrieve(key) {
-        if (!(key in this.data)) return null
+    retrieve(key, def = null) {
+        if (!(key in this.data)) return def
 
-        let data = this.data[key]
+        const data = this.data[key]
         if (data.flash) {
             delete this.data[key]
         }

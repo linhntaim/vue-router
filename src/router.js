@@ -8,23 +8,23 @@ export default class Router extends VueRouter {
 
         this.routePathByNames = {}
 
-        this.beforeDefault = this.options.beforeDefault ? this.options.beforeDefault : []
-        this.beforeRouting = this.options.beforeRouting ? this.options.beforeRouting : null
-        this.beforeEnabled = this.options.beforeEnabled ? this.options.beforeEnabled : () => true
-        this.afterDefault = this.options.afterDefault ? this.options.afterDefault : []
-        this.afterRouting = this.options.afterRouting ? this.options.afterRouting : null
-        this.afterEnabled = this.options.afterEnabled ? this.options.afterEnabled : () => true
-        this.authRoutes = this.options.authRoutes ? this.options.authRoutes : null
-        this.notAuthRoutes = this.options.notAuthRoutes ? this.options.notAuthRoutes : null
+        this.beforeDefault = 'beforeDefault' in this.options ? this.options.beforeDefault : []
+        this.beforeRouting = 'beforeRouting' in this.options ? this.options.beforeRouting : null
+        this.beforeEnabled = 'beforeEnabled' in this.options ? this.options.beforeEnabled : () => true
+        this.afterDefault = 'afterDefault' in this.options ? this.options.afterDefault : []
+        this.afterRouting = 'afterRouting' in this.options ? this.options.afterRouting : null
+        this.afterEnabled = 'afterEnabled' in this.options ? this.options.afterEnabled : () => true
+        this.authRoutes = 'authRoutes' in this.options ? this.options.authRoutes : null
+        this.notAuthRoutes = 'notAuthRoutes' in this.options ? this.options.notAuthRoutes : null
 
-        delete this.options.beforeDefault
-        delete this.options.beforeRouting
-        delete this.options.beforeEnabled
-        delete this.options.afterDefault
-        delete this.options.afterRouting
-        delete this.options.afterEnabled
-        delete this.options.authRoutes
-        delete this.options.notAuthRoutes
+        'beforeDefault' in this.options && delete this.options.beforeDefault
+        'beforeRouting' in this.options && delete this.options.beforeRouting
+        'beforeEnabled' in this.options && delete this.options.beforeEnabled
+        'afterDefault' in this.options && delete this.options.afterDefault
+        'afterRouting' in this.options && delete this.options.afterRouting
+        'afterEnabled' in this.options && delete this.options.afterEnabled
+        'authRoutes' in this.options && delete this.options.authRoutes
+        'notAuthRoutes' in this.options && delete this.options.notAuthRoutes
 
         this.parseRoutes()
 
@@ -141,7 +141,14 @@ export default class Router extends VueRouter {
 
     softReplace(location, onComplete = null, onAbort = null) {
         session.skip()
-        this.replace(location, onComplete, () => {
+        return this.replace(location, onComplete, () => {
+            onAbort && onAbort()
+        })
+    }
+
+    softPush(location, onComplete = null, onAbort = null) {
+        session.skip()
+        return this.push(location, onComplete, () => {
             onAbort && onAbort()
         })
     }
@@ -149,5 +156,10 @@ export default class Router extends VueRouter {
     catchSoftReplace(location, onComplete = null, onAbort = null) {
         session.skip()
         return this.replace(location, onComplete, onAbort)
+    }
+
+    catchSoftPush(location, onComplete = null, onAbort = null) {
+        session.skip()
+        return this.push(location, onComplete, onAbort)
     }
 }
