@@ -139,27 +139,35 @@ export default class Router extends VueRouter {
         return false
     }
 
-    softReplace(location, onComplete = null, onAbort = null) {
-        session.skip()
+    softReplace(location, onComplete = null, onAbort = null, sessionSkipped = true) {
+        sessionSkipped && session.skip()
+        return this.smoothReplace(location, onComplete, onAbort)
+    }
+
+    smoothReplace(location, onComplete = null, onAbort = null) {
         return this.replace(location, onComplete, () => {
             onAbort && onAbort()
         })
     }
 
-    softPush(location, onComplete = null, onAbort = null) {
-        session.skip()
+    catchSoftReplace(location, onComplete = null, onAbort = null, sessionSkipped = true) {
+        sessionSkipped && session.skip()
+        return this.replace(location, onComplete, onAbort)
+    }
+
+    softPush(location, onComplete = null, onAbort = null, sessionSkipped = true) {
+        sessionSkipped && session.skip()
+        return this.smoothPush(location, onComplete, onAbort)
+    }
+
+    smoothPush(location, onComplete = null, onAbort = null) {
         return this.push(location, onComplete, () => {
             onAbort && onAbort()
         })
     }
 
-    catchSoftReplace(location, onComplete = null, onAbort = null) {
-        session.skip()
-        return this.replace(location, onComplete, onAbort)
-    }
-
-    catchSoftPush(location, onComplete = null, onAbort = null) {
-        session.skip()
+    catchSoftPush(location, onComplete = null, onAbort = null, sessionSkipped = true) {
+        sessionSkipped && session.skip()
         return this.push(location, onComplete, onAbort)
     }
 }
