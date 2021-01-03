@@ -13,8 +13,7 @@ export default class Session {
      */
     attachStoreHandler(storeHandler) {
         this.storeHandler = storeHandler
-        this.sync('save')
-        return this
+        return this.sync('save')
     }
 
     /**
@@ -23,8 +22,7 @@ export default class Session {
      */
     fromStoreHandler(storeHandler) {
         this.storeHandler = storeHandler
-        this.sync()
-        return this
+        return this.sync()
     }
 
     /**
@@ -32,7 +30,7 @@ export default class Session {
      * @param {String|null} action
      */
     sync(action = null) {
-        if (!this.storeHandler) return
+        if (!this.storeHandler) return this
 
         if (action === 'save') {
             this.storeHandler.setJson('__session', this.data)
@@ -40,6 +38,7 @@ export default class Session {
             const data = this.storeHandler.getJson('__session')
             if (data) this.data = data
         }
+        return this
     }
 
     start() {
@@ -84,8 +83,7 @@ export default class Session {
             value: value,
             flash: flash,
         }
-        this.sync('save')
-        return this
+        return this.sync('save')
     }
 
     retrieve(key, def = null) {
@@ -96,5 +94,10 @@ export default class Session {
             delete this.data[key]
         }
         return data.value
+    }
+
+    forgot(key) {
+        delete this.data[key]
+        return this.sync('save')
     }
 }
