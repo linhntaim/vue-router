@@ -1,6 +1,6 @@
 {
     "name": "@linhntaim/vue-router",
-    "version": "1.0.9",
+    "version": "1.2.2",
     "description": "Advanced routing fpr Vue application",
     "main": "dist/index.js",
     "scripts": {
@@ -32,6 +32,6 @@
         "nyc": "^15.1.0"
     },
     "dependencies": {
-        "vue-router": "^3.4.0"
+        "vue-router": "^3.4.9"
     }
 }
