@@ -1,4 +1,4 @@
-export default class MiddlewareManager {
+export class MiddlewareManager {
     constructor(middlewareGroups, router) {
         this.middlewareGroups = middlewareGroups
         this.router = router
