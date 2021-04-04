@@ -1,4 +1,4 @@
-import MiddlewareManager from './middleware-manager'
+import {MiddlewareManager} from './middleware-manager'
 
 export class AfterMiddlewareManager extends MiddlewareManager {
     constructor(middlewareGroups, router) {

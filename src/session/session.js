@@ -1,8 +1,10 @@
-export default class Session {
+export class Session {
     constructor() {
         this.storeHandler = null
         this.accessTime = 0
         this.nextAccessTime = 1
+        this.storeHandlerKey = process.env.SESSION_STORE_HANDLER_KEY ?
+            process.env.SESSION_STORE_HANDLER_KEY : '__session'
 
         this.data = {}
     }
@@ -33,9 +35,9 @@ export default class Session {
         if (!this.storeHandler) return this
 
         if (action === 'save') {
-            this.storeHandler.setJson('__session', this.data)
+            this.storeHandler.setJson(this.storeHandlerKey, this.data)
         } else {
-            const data = this.storeHandler.getJson('__session')
+            const data = this.storeHandler.getJson(this.storeHandlerKey)
             if (data) this.data = data
         }
         return this

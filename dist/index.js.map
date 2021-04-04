@@ -1,1 +1,1 @@
-{"version":3,"sources":["../src/index.js"],"names":[],"mappings":"sYAAA,wDACA,wCACA,kC","sourcesContent":["export {default as default} from './router'\r\nexport {Middleware} from './middleware'\r\nexport {session} from './session'\r\n"],"file":"index.js"}
+{"version":3,"sources":["../src/index.js"],"names":[],"mappings":"iYAAA,gCACA,wCACA","sourcesContent":["export {Router} from './router'\r\nexport {Middleware} from './middleware'\r\nexport {session} from './session'\r\n"],"file":"index.js"}

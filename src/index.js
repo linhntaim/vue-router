@@ -1,3 +1,3 @@
-export {default as default} from './router'
+export {Router} from './router'
 export {Middleware} from './middleware'
 export {session} from './session'

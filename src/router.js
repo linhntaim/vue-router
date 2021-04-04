@@ -2,7 +2,7 @@ import {session} from './session'
 import {AfterMiddlewareManager, BeforeMiddlewareManager, Middleware} from './middleware'
 import VueRouter from 'vue-router'
 
-export default class Router extends VueRouter {
+export class Router extends VueRouter {
     constructor(options = {}) {
         super(options)
 

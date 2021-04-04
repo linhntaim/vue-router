@@ -1,1 +1,1 @@
-{"version":3,"sources":["../../src/session/index.js"],"names":["session","Session"],"mappings":"6FAAA,0D,oFAEO,GAAMA,CAAAA,OAAO,CAAG,GAAIC,oBAApB,C","sourcesContent":["import Session from './session'\r\n\r\nexport const session = new Session()\r\n"],"file":"index.js"}
+{"version":3,"sources":["../../src/session/index.js"],"names":["session","Session"],"mappings":"6FAAA,kCAEO,GAAMA,CAAAA,OAAO,CAAG,GAAIC,iBAApB,C","sourcesContent":["import {Session} from './session'\r\n\r\nexport const session = new Session()\r\n"],"file":"index.js"}

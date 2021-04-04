@@ -1,3 +1,3 @@
-import Session from './session'
+import {Session} from './session'
 
 export const session = new Session()
