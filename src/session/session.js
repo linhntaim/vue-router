@@ -1,10 +1,11 @@
 export class Session {
     constructor() {
         this.storeHandler = null
-        this.accessTime = 0
-        this.nextAccessTime = 1
         this.storeHandlerKey = process.env.SESSION_STORE_HANDLER_KEY ?
-            process.env.SESSION_STORE_HANDLER_KEY : '__session'
+            process.env.SESSION_STORE_HANDLER_KEY : '___session'
+
+        this.sequenceAccess = 0
+        this.nextSequenceAccess = 1
 
         this.data = {}
     }
@@ -13,9 +14,9 @@ export class Session {
      *
      * @param {StoreHandler} storeHandler
      */
-    attachStoreHandler(storeHandler) {
+    toStoreHandler(storeHandler) {
         this.storeHandler = storeHandler
-        return this.sync('save')
+        return this.syncTo()
     }
 
     /**
@@ -24,56 +25,59 @@ export class Session {
      */
     fromStoreHandler(storeHandler) {
         this.storeHandler = storeHandler
-        return this.sync()
+        return this.syncFrom()
     }
 
-    /**
-     *
-     * @param {String|null} action
-     */
-    sync(action = null) {
-        if (!this.storeHandler) return this
-
-        if (action === 'save') {
+    syncTo() {
+        if (this.storeHandler) {
             this.storeHandler.setJson(this.storeHandlerKey, this.data)
-        } else {
+        }
+        return this
+    }
+
+    syncFrom() {
+        if (this.storeHandler) {
             const data = this.storeHandler.getJson(this.storeHandlerKey)
-            if (data) this.data = data
+            data && (this.data = data)
         }
         return this
     }
 
     start() {
-        this.nextAccessTime = ++this.accessTime + 1
+        return this.sequenceStart()
+    }
+
+    sequenceStart() {
+        this.nextSequenceAccess = ++this.sequenceAccess + 1
         return this
     }
 
-    restart() {
-        this.accessTime = 1
-        this.nextAccessTime = 2
+    sequenceRestart() {
+        this.sequenceAccess = 1
+        this.nextSequenceAccess = 2
         return this
     }
 
-    skip() {
-        this.nextAccessTime = this.accessTime
+    sequenceSkip() {
+        this.nextSequenceAccess = this.sequenceAccess
         return this
     }
 
-    abortSkipping() {
-        this.nextAccessTime = this.accessTime + 1
+    sequenceAbortSkipping() {
+        this.nextSequenceAccess = this.sequenceAccess + 1
         return this
     }
 
-    skipping() {
-        return this.nextAccessTime <= this.accessTime
+    sequenceSkipping() {
+        return this.nextSequenceAccess <= this.sequenceAccess
     }
 
-    isFresh() {
-        return this.accessTime === 1
+    isFreshSequence() {
+        return this.sequenceAccess === 1
     }
 
-    isNotFresh() {
-        return this.accessTime > 1
+    isNotFreshSequence() {
+        return this.sequenceAccess > 1
     }
 
     flash(key, value) {
@@ -85,21 +89,19 @@ export class Session {
             value: value,
             flash: flash,
         }
-        return this.sync('save')
+        return this.syncTo()
     }
 
     retrieve(key, def = null) {
         if (!(key in this.data)) return def
 
         const data = this.data[key]
-        if (data.flash) {
-            delete this.data[key]
-        }
+        data.flash && this.forgot(key)
         return data.value
     }
 
     forgot(key) {
         delete this.data[key]
-        return this.sync('save')
+        return this.syncTo()
     }
 }
