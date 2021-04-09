@@ -2,7 +2,7 @@ export class Session {
     constructor() {
         this.storeHandler = null
         this.storeHandlerKey = process.env.VUE_APP_SESSION_STORE_HANDLER_KEY ?
-            process.env.VUE_APP_SESSION_STORE_HANDLER_KEY : '___session'
+            process.env.VUE_APP_SESSION_STORE_HANDLER_KEY : '__session'
 
         this.sequenceAccess = 0
         this.nextSequenceAccess = 1
