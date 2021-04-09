@@ -3,8 +3,8 @@ export class Session {
         this.storeHandler = null
         this.accessTime = 0
         this.nextAccessTime = 1
-        this.storeHandlerKey = process.env.SESSION_STORE_HANDLER_KEY ?
-            process.env.SESSION_STORE_HANDLER_KEY : '__session'
+        this.storeHandlerKey = process.env.VUE_APP_SESSION_STORE_HANDLER_KEY ?
+            process.env.VUE_APP_SESSION_STORE_HANDLER_KEY : '__session'
 
         this.data = {}
     }
