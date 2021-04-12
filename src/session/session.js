@@ -47,6 +47,10 @@ export class Session {
         return this.sequenceStart()
     }
 
+    restart() {
+        return this.sequenceRestart()
+    }
+
     sequenceStart() {
         this.nextSequenceAccess = ++this.sequenceAccess + 1
         return this
@@ -96,11 +100,11 @@ export class Session {
         if (!(key in this.data)) return def
 
         const data = this.data[key]
-        data.flash && this.forgot(key)
+        data.flash && this.forget(key)
         return data.value
     }
 
-    forgot(key) {
+    forget(key) {
         delete this.data[key]
         return this.syncTo()
     }
