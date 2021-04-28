@@ -9,10 +9,10 @@ export class Router extends VueRouter {
         this.routePathByNames = {}
 
         this.beforeDefault = 'beforeDefault' in this.options ? this.options.beforeDefault : []
-        this.beforeRouting = 'beforeRouting' in this.options ? this.options.beforeRouting : null
+        this.beforeRouting = 'beforeRouting' in this.options ? this.options.beforeRouting : () => true
         this.beforeEnabled = 'beforeEnabled' in this.options ? this.options.beforeEnabled : () => true
         this.afterDefault = 'afterDefault' in this.options ? this.options.afterDefault : []
-        this.afterRouting = 'afterRouting' in this.options ? this.options.afterRouting : null
+        this.afterRouting = 'afterRouting' in this.options ? this.options.afterRouting : () => true
         this.afterEnabled = 'afterEnabled' in this.options ? this.options.afterEnabled : () => true
         this.authRoutes = 'authRoutes' in this.options ? this.options.authRoutes : null
         this.notAuthRoutes = 'notAuthRoutes' in this.options ? this.options.notAuthRoutes : null
@@ -29,9 +29,9 @@ export class Router extends VueRouter {
         this.parseRoutes()
 
         this.beforeEach((to, from, next) => {
-            this.beforeRouting && this.beforeRouting(to, from)
+            this.beforeRouting(to, from)
 
-            if (this.beforeEnabled(to, from) && !session.skipping()) {
+            if (this.beforeEnabled(to, from) && !session.sequenceSkipping()) {
                 const middlewareGroups = this.beforeDefault.slice(0)
                 to.matched.forEach(route => {
                     if ('middleware' in route.meta) {
@@ -62,7 +62,7 @@ export class Router extends VueRouter {
         })
 
         this.afterEach((to, from) => {
-            if (this.afterEnabled(to, from) && !session.skipping()) {
+            if (this.afterEnabled(to, from) && !session.sequenceSkipping()) {
                 const middlewareGroups = []
                 to.matched.forEach(route => {
                     if ('middleware' in route.meta) {
@@ -88,8 +88,8 @@ export class Router extends VueRouter {
                 }
             }
 
-            session.skipping() && session.abortSkipping()
-            this.afterRouting && this.afterRouting(to, from)
+            session.sequenceSkipping() && session.sequenceAbortSkipping()
+            this.afterRouting(to, from)
         })
     }
 
@@ -139,8 +139,8 @@ export class Router extends VueRouter {
         return false
     }
 
-    softReplace(location, onComplete = null, onAbort = null, sessionSkipped = true) {
-        sessionSkipped && session.skip()
+    softReplace(location, onComplete = null, onAbort = null, sessionSequenceSkipped = true) {
+        sessionSequenceSkipped && session.sequenceSkip()
         return this.smoothReplace(location, onComplete, onAbort)
     }
 
@@ -150,13 +150,13 @@ export class Router extends VueRouter {
         })
     }
 
-    catchSoftReplace(location, onComplete = null, onAbort = null, sessionSkipped = true) {
-        sessionSkipped && session.skip()
+    catchSoftReplace(location, onComplete = null, onAbort = null, sessionSequenceSkipped = true) {
+        sessionSequenceSkipped && session.sequenceSkip()
         return this.replace(location, onComplete, onAbort)
     }
 
-    softPush(location, onComplete = null, onAbort = null, sessionSkipped = true) {
-        sessionSkipped && session.skip()
+    softPush(location, onComplete = null, onAbort = null, sessionSequenceSkipped = true) {
+        sessionSequenceSkipped && session.sequenceSkip()
         return this.smoothPush(location, onComplete, onAbort)
     }
 
@@ -166,8 +166,8 @@ export class Router extends VueRouter {
         })
     }
 
-    catchSoftPush(location, onComplete = null, onAbort = null, sessionSkipped = true) {
-        sessionSkipped && session.skip()
+    catchSoftPush(location, onComplete = null, onAbort = null, sessionSequenceSkipped = true) {
+        sessionSequenceSkipped && session.sequenceSkip()
         return this.push(location, onComplete, onAbort)
     }
 }
